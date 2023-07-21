@@ -1,7 +1,9 @@
 # ControloMonitorizacaoPostural
 
-npm init
+cd Controlo-Monitorizacao-Postural
 
-npm start
+npm install         (install libraries)
 
-npm run devicesimulator
+npm start           (in cmd) 
+
+npm run devicesimulator    (in new cmd, needs to both running at same time)
