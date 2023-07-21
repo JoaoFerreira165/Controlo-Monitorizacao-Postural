@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Informações Sessão</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href="./bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/tabelaSessoes.css" rel="stylesheet">
+    <link href="./css/menu.css" rel="stylesheet">
+    <script src="./bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="./InfoSessao.js" defer></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand mx-auto mb-0 mt-0 appa" href="./Index.html">APPACDM</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarCollapse">
+                <ul class="navbar-nav mx-4 mb-0 mb-lg-0 mt-0">
+                    <li class="nav-item mx-2">
+                        <a class="nav-link mx-2" href="./Pacientes.html">Pacientes</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link mx-2" href="./Sessions.html">Sessões</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link mx-2" href="./TabelaSessoes.html">Tabela Sessões</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link mx-2" href="#">Jogo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="preload"><img src="./css/icons/loading.gif"></div>
+    <div class="Tabsessions" id="pag" style="display: none;">
+        <div class="form border border-dark borda">
+            <h4 style="text-align: center; margin-top: 7px; margin-bottom: 5px;" id="titulo"></h4>
+            <form>
+                <div class="row mb-3 mt-3">
+                    <div class="col">
+                        <label><strong>Descrição Sessão: </strong></label><br>
+                        <input id="descricaoSessao" readonly placeholder="Sem descrição..."></input>
+                    </div>
+                    <div class="col">
+                        <label><strong>Tarefa: </strong></label><br>
+                        <input id="tarefa" readonly></input>
+                    </div>
+                    <div class="col">
+                        <label><strong> Descrição Tarefa: </strong></label><br>
+                        <input id="descricaoTarefa" readonly></input>
+                    </div>
+                    <div class="col">
+                        <div class="form-group shadow-textarea">
+                            <label for="floatingTextarea"><strong> Comentários: </strong></label><br>
+                            <textarea class="form-control z-depth-1" style="width: 200px;" id="comentario" rows="2"
+                                placeholder="Não tem nenhum comentário sobre este paciente..." readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label> <strong> Complexo: </strong></label><br>
+                        <input id="complexoNome" readonly></input>
+                    </div>
+                </div>
+            </form>
+            <div class="row mb-2 mt-2">
+                <div class="center">
+                    <form onsubmit="return false">
+                        <button type="submit" class="btn btn-primary voltar" onclick="Voltar()"
+                            style="margin-bottom: 5px;" id="voltar">Voltar</button>
+                        <button type="submit" class="btn btn-primary delete" style="margin-bottom: 5px;"
+                            id="delete">Eliminar Sessão</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div id="linha_horizontal"></div>
+        <div class="row">
+            <div class="col-10">
+                <form>
+                    <h4 class="center" style="margin-top:10px; margin-bottom: -10px; ">Plano Sagital</h4>
+                    <input type="checkbox" style="margin-left: 100px;" id="linePitch" onchange="graficos()"><span
+                        style="font-weight: bold; "> Sagital</span>
+                    <input type="checkbox" id="linePitchmedia" onchange="graficos()"><span style="font-weight: bold;">
+                        Sagital(ajustada)</span>
+                </form>
+                <div id="div_LineChartPitch" class="chart" style="height: 250px;"></div>
+            </div>
+            <div class="col-2">
+                <table id="grafPitch"
+                    class="table table-bordered border-secondary table-sm table-align-middle text-center tabela">
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                <form>
+                    <h4 class="center" style="margin-top: 40px; margin-bottom: 5px; ">Plano Frontal</h4>
+                    <input type="checkbox" style="margin-left: 100px;" id="lineRoll" onchange="graficos()"><span
+                        style="font-weight: bold; "> Frontal</span>
+                    <input type="checkbox" id="lineRollmedia" onchange="graficos()"><span style="font-weight: bold;">
+                        Frontal(ajustada)</span>
+                </form>
+                <div id="div_LineChartRoll" class="chart" style="height: 250px;"></div>
+            </div>
+            <div class="col-2">
+                <table id="grafRoll"
+                    class="table table-bordered border-secondary table-sm table-align-middle text-center tabela2">
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <h4 class="col-10 flex-box" style="margin-top: 40px; margin-bottom: 0px;">Dispersão dos Eixos</h4>
+            <div class="col-10 flex-box container-box">
+                <div id="div_dispersaoChart" class="chart"
+                    style="width: 800px; min-width: 300px; max-width: 800px; height: 400px; ">
+                </div>
+            </div>
+            <div class="col-2">
+                <table id="grafPitchAndRoll"
+                    class="table table-bordered border-secondary table-sm table-align-middle text-center tabelaDisper">
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                <form>
+                    <h4 class="center" style="margin-top: 40px; margin-bottom: 5px;">Plano Transversal</h4>
+                    <input type="checkbox" style="margin-left: 100px;" id="lineYaw" onchange="graficos()"><span
+                        style="font-weight: bold; "> Transversal</span>
+                    <input type="checkbox" id="lineYawmedia" onchange="graficos()"><span style="font-weight: bold;">
+                        Transversal(ajustada)</span>
+                </form>
+                <div id="div_LineChartYaw" class="chart" style="height: 250px; margin-bottom: 25px;"></div>
+            </div>
+            <div class="col-2">
+                <table id="grafYaw"
+                    class="table table-bordered border-secondary table-sm table-align-middle text-center tabela2">
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="myModalElim">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100">Alerta!</h4>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body text-center bodyconteudo">
+                    <h6 class="modal_body1"></h6>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-danger " data-bs-dismiss="modal">Close</button>
+                    <a class="btn btn-danger btn-ok eliminar" id="eliminar">Apagar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

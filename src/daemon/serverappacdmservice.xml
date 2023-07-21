@@ -1,0 +1,31 @@
+<service>
+	<id>serverappacdmservice.exe</id>
+	<name>Server APPACDM Service</name>
+	<description>Servidor que contem todos os serviços necessários para assegurar todas as funcionalidades do sistema</description>
+	<executable>C:\Program Files\nodejs\node.exe</executable>
+	<argument>--harmony</argument>
+	<argument>D:\OneDrive - Universidade Lusiada\Documents\Trabalhos\APPACMD - 2022\Código\Server_APPACDM\node_modules\node-windows\lib\wrapper.js</argument>
+	<argument>--file</argument>
+	<argument>D:\OneDrive - Universidade Lusiada\Documents\Trabalhos\APPACMD - 2022\Código\Server_APPACDM\src\server.ts</argument>
+	<argument>--scriptoptions=</argument>
+	<argument>--log</argument>
+	<argument>Server APPACDM Service wrapper</argument>
+	<argument>--grow</argument>
+	<argument>0.25</argument>
+	<argument>--wait</argument>
+	<argument>1</argument>
+	<argument>--maxrestarts</argument>
+	<argument>3</argument>
+	<argument>--abortonerror</argument>
+	<argument>n</argument>
+	<argument>--stopparentfirst</argument>
+	<argument>undefined</argument>
+	<logmode>rotate</logmode>
+	<stoptimeout>30sec</stoptimeout>
+	<serviceaccount>
+		<domain>DESKTOP-1J5UOI2</domain>
+		<user>LocalSystem</user>
+		<password></password>
+	</serviceaccount>
+	<workingdirectory>D:\OneDrive - Universidade Lusiada\Documents\Trabalhos\APPACMD - 2022\Código\Server_APPACDM</workingdirectory>
+</service>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APPACDM</title>
+    <link href="./bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    <link href="./css/menu.css" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="./Index.js" defer></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark menu">
+        <div class="container-fluid">
+            <a class="navbar-brand mx-auto mb-0 mt-0 appa active" href="./Index.html">APPACDM</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarCollapse">
+                <ul class="navbar-nav mx-4 mb-0 mb-lg-0 mt-0">
+                    <li class="nav-item mx-2">
+                        <a class="nav-link mx-2 pacientes btn btn-dark" href="./Pacientes.html">Pacientes</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link mx-2  pacientes" href="./Sessions.html">Sessões</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link mx-2 btn btn-dark" href="./TabelaSessoes.html">Tabela Sessões</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <button class="nav-link mx-2 btn btn-dark">Jogo</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="preload"><img src="./css/icons/loading.gif"></div>
+    <div class="index" id="index" style="display: block;">
+        <div class="row gx-5">
+            <div class="col">
+                <div class="p-3 bg-white rounded ">
+                    <div class="row justify-content-md-center" id="complexo">
+                        <div class="col-md-auto">
+                            <img src="./css/icons/appacdm.jpg" class="rounded img-fluid imagem">
+                        </div>
+                        <div class="col-md-auto">
+                            <h1 id="ComplexName" style="color:rgb(66, 66, 66);"></h1>
+                            <h4 id="infos"></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <div class="col">
+                <div class="p-3 mt-2 bg-white rounded">
+                    <h4 style="font-weight: bold; color: lightskyblue;">Pacientes: </h4>
+                    <div class="d-flex pb-1">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <img src="./css/icons/pessoas.png" class="rounded img-fluid imagemIcon"></img>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h3 id="NumPatients" style="margin-top: 4px; margin-left: -10px;"></h3>
+                            </div>
+                            <div class="col">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <img src="./css/icons/homem.png" alt="homem icon" style="margin-left: -20px; margin-top: -5px;"
+                                        class="rounded img-fluid imagemIcon"></img>
+                                    <h3 style="margin-top: 3px; margin-left: -15px; color: blue;" id="masculino"></h3>
+                                    <img src="./css/icons/mulher.png" style="margin-top: -3px; margin-left: 15px;"
+                                        class="rounded img-fluid imagemIcon"></img>
+                                    <h3 style="margin-top: 4px; margin-left: -20px; color:palevioletred;" id="feminino">
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col mb-3">
+                <div class="p-3 mt-2 bg-white rounded ">
+                    <h4 style="font-weight: bold; color: lightskyblue;">Sessões: </h4>
+                    <div class="d-flex pb-2">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <img src="./css/icons/helping.png" class="rounded img-fluid imagemIcon"></img>
+                        </div>
+                        <div>
+                            <h3 id="NumSessions"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="p-3 mt-2 bg-white rounded ">
+                    <h4 style="font-weight: bold; color: lightskyblue;"> Ultima Sessão: </h4>
+                    <div class="d-flex pb-3">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <img src="./css/icons/calendar.png" class="rounded img-fluid imagemIcon"></img>
+                        </div>
+                        <div>
+                            <h5 id="dateLastSession"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="p-3 mt-2 bg-white rounded ">
+                    <h4 style="font-weight: bold; color: lightskyblue;">Tempo Médio Sessão: </h4>
+                    <div class="d-flex pb-3">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <img src="./css/icons/relogio.png" class="rounded img-fluid imagemIcon"></img>
+                        </div>
+                        <div>
+                            <h5 id="MedTime"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 align-items-center justify-content-center">
+                <div class="p-3 mt-2 mb-3 bg-white rounded">
+                    <div>
+                        <h4 class="center">Número de Sessões Diárias</h4>
+                    </div>
+                    <div id="div_ColumnChart" style="margin-top: -10px;"></div>
+                </div>
+            </div>
+            <div class="col-md-4 align-items-center justify-content-center">
+                <div class="pb-3 mt-2 mb-3 bg-white rounded center ">
+                    <div>
+                        <h4>Tarefas Executadas ( % )</h4>
+                    </div>
+                    <div id="div_TasksChart"
+                        style="margin-left: 30px; margin-top: -10px; max-width: 350px; height: 315px;"></div>
+                </div>
+            </div>
+            <div class="col-md align-items-center justify-content-center">
+                <div class="p-3 mt-2 bg-white rounded center">
+                    <div>
+                        <h4 class="center">Número de Sessões por Paciente</h4>
+                    </div>
+                    <div id="div_ColumnChartPacientes" style="margin-top: 25px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

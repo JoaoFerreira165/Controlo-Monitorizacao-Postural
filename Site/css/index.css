@@ -1,0 +1,51 @@
+.appa {
+    font-size: 18pt;
+}
+
+.index {
+    background-color: rgba(225, 223, 255, 0.692);
+    padding-top: 10px;
+    width: auto;
+    height: auto;
+    padding-bottom: 50px;
+}
+
+.imagem {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+.imagemIcon {
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+    margin-top: -5px;
+}
+
+.center {
+    text-align: center;
+}
+
+.direita {
+    margin-top: -45px;
+    margin-right: -25px;
+    text-align: right;
+    padding-bottom: 12px;
+}
+
+.chart {
+    width: 100%;
+    min-height: 450px;
+}
+
+.row {
+    margin: 0 !important;
+}
+.preload {
+    width: 200px;
+    height: 100px;
+    position: fixed;
+    top: 30%;
+    left: 45%;
+}

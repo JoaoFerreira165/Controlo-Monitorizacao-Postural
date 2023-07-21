@@ -1,0 +1,2 @@
+2022-12-14 23:08:49 - Starting C:\Program Files\nodejs\node.exe  --harmony "D:\OneDrive - Universidade Lusiada\Documents\Trabalhos\APPACMD - 2022\Código\Server_APPACDM\node_modules\node-windows\lib\wrapper.js" --file "D:\OneDrive - Universidade Lusiada\Documents\Trabalhos\APPACMD - 2022\Código\Server_APPACDM\src\server.ts" --scriptoptions= --log "Server APPACDM Service wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2022-12-14 23:08:49 - Started 5040

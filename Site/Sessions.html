@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>APPACDM</title>
+    <link href="./bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/sessions.css" rel="stylesheet">
+    <link href="./css/menu.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="./sessions.js" defer></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark menu">
+        <div class="container-fluid">
+            <button class="navbar-brand mx-auto mb-0 mt-0 appa  btn btn-dark" onclick="AvisarPac('Index.html')">APPACDM
+            </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarCollapse">
+                <ul class="navbar-nav mx-4 mb-0 mb-lg-0 mt-0">
+                    <li class="nav-item mx-2">
+                        <button class="nav-link mx-2 pacientes btn btn-dark"
+                            onclick="AvisarPac('Pacientes.html')">Pacientes</button>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link mx-2 active pacientes" href="./Sessions.html">Sessões</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <button class="nav-link mx-2 btn btn-dark" onclick="AvisarPac('TabelaSessoes.html')">Tabela
+                            Sessões</button>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <button class="nav-link mx-2 btn btn-dark" onclick="AvisarPac('Pacientes.html')">Jogo</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="session" id="borda" style="display: block;">
+        <div class="form border border-dark borda">
+            <h4 class="text-center mt-2">Nova Sessão:</h4>
+            <p></p>
+            <form autocomplete="off" onsubmit="return false">
+                <div class="row mb-2">
+                    <div class="col">
+                        <label><strong>Nome: </strong></label><br>
+                        <div class="autocomplete">
+                            <input id="nome-paciente" type="text" class="form-control-sm border border-dark"
+                                placeholder="Escolha um paciente..." required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label><strong>Tarefa: </strong></label><br>
+                        <select id="mostrar-tarefas" class="form-control-sm border border-dark" required>
+                            <option value="" disabled selected>Escolha uma Tarefa</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <div class="teste">
+                            <label><strong>Dispositivo: </strong></label><br>
+                            <select id="mostrar-dispositivos" class="form-control-sm border border-dark" required>
+                                <option value="" disabled selected>Escolha um Dispositivo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label><strong>Descrição: </strong></label><br>
+                        <input type="" class="form-control border border-dark" id="descricao"
+                            placeholder="Descrição...." style="width: 500px;">
+                    </div>
+                </div>
+                <div class="row mt-3 mb-2">
+                    <div class="center mb-2">
+                        <h4 style="font-weight: bold; color: red;" id="informacoes" class="piscar"></h4>
+                    </div>
+                    <div class="center">
+                        <button type="submit" class="btn btn-primary enviar" style="margin-bottom: 5px;"
+                            id="enviar">Começar</button>
+                        <button type="reset" class="btn btn-primary clear" style="margin-bottom: 5px;" id="clear"
+                            onclick="Graficosdefault(); clearTables(); ">Limpar</button>
+                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;" id=""
+                            disabled>Parar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="session2" id="mostrarInfos" style="display: none;">
+        <div class="form border border-dark" style=" padding-left: 8px; padding-top: 8px;">
+            <div class="row">
+                <div class="col-8">
+                    <p id="infosPaciente" style="margin-top: 10px;">
+                    </p>
+                </div>
+                <div class="col-2">
+                    <button type="submit" style="margin-top: 5px;" class="btn btn-primary stop" id="stop">Parar</button>
+                </div>
+                <div class="col-2">
+                    <div class="tempor">
+
+                        <div id="time">0 m : 0 s</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p></p>
+    <div id="borda1">
+        <div id="linha_horizontal"></div>
+    </div>
+    <p></p>
+    <div class="row">
+        <div class="col-8">
+            <h5 class="center" style="margin-top:5px; margin-bottom: 2px; ">Plano Sagital</h5>
+            <canvas id="chartPitch" style="width: 100%; height: 200px;"></canvas>
+            <h5 class="center" style="margin-top: 10px; margin-bottom: 0px;">Plano Frontal</h5>
+            <canvas id="chartRoll" style="width: 100%; height:200px;"></canvas>
+            <div class="row"></div>
+        </div>
+        <div class="col-4" style="margin-left: 0px;">
+            <h5 class="flex-box" style="margin-left: 100px; margin-top: 5px; margin-bottom: 0px;">Dispersão dos Eixos
+            </h5>
+            <div class=" flex-box container-box">
+                <div id="div_dispersaoChart" class="chart" style=" margin-left:-40px; margin-top: 0px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <h5 class="center" style="margin-top: 20px; margin-bottom: 2px;">Plano Transversal</h5>
+            <canvas id="chartYaw" style="width: 100%; height:200px;"></canvas>
+        </div>
+        <div class="col-4">
+            <div class="col-2">
+                <table class="table table-bordered border-secondary table-sm table-align-middle text-center tabela"
+                    id="tabelasDados" style="margin-top: 0px; margin-left: 10px; display: block;">
+                    <thead class="table-primary table-bordered border-secondary">
+                        <tr>
+                            <th style="font-weight: 700;">Plano </th>
+                            <th style="font-weight: 700;">Média</th>
+                            <th style="font-weight: 700;">Desvio_Padrão</th>
+                            <th style="font-weight: 700;">Máximo</th>
+                            <th style="font-weight: 700;">Mínimo</th>
+                            <th style="font-weight: 700;">Amplitude</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th style="font-weight:400; font-size:  11pt; ">Frontal</th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="medroll"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="droll"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="maxroll"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="minroll"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="amproll"></th>
+                        </tr>
+                        <tr>
+                            <th style="font-weight:400; font-size:  11pt;">Sagital</th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="medpitch"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="dpitch"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="maxpitch"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="minpitch"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="ampitch"></th>
+                        </tr>
+                        <tr>
+                            <th style="font-weight:400; font-size:  11pt;">Transversal</th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="medyaw"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="dyaw"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="maxyaw"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="minyaw"></th>
+                            <th style="font-size: 11pt; font-weight: 400; " id="ampyaw"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-2">
+                <table class="table table-bordered border-secondary table-sm table-align-middle text-center tabela"
+                    id="grafDados" style="display: none; margin-left: 120px; margin-top: 0px; ">
+                    <thead class="table-primary table-bordered border-secondary">
+                        <tr>
+                            <th>Tempo</th>
+                            <th>Pitch Rotation</th>
+                            <th>Roll Rotation</th>
+                            <th>Yaw Rotation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="hora1"></td>
+                            <td id="pitch1"></td>
+                            <td id="roll1"></td>
+                            <td id="yaw1"></td>
+                        </tr>
+                        <tr>
+                            <td id="hora2"></td>
+                            <td id="pitch2"></td>
+                            <td id="roll2"></td>
+                            <td id="yaw2"></td>
+
+                        </tr>
+                        <tr>
+                            <td id="hora3"></td>
+                            <td id="pitch3"></td>
+                            <td id="roll3"></td>
+                            <td id="yaw3"></td>
+                        </tr>
+                        <tr>
+                            <td id="hora4"></td>
+                            <td id="pitch4"></td>
+                            <td id="roll4"></td>
+                            <td id="yaw4"></td>
+                        </tr>
+                        <tr>
+                            <td id="hora5"></td>
+                            <td id="pitch5"></td>
+                            <td id="roll5"></td>
+                            <td id="yaw5"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="myModalAlert">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100">Alerta!</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <h6 class="modal_bodyAlert w-100"></h6>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
+                        id="close">Fechar</button>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

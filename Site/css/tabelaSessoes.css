@@ -1,0 +1,100 @@
+.Tabsessions {
+    margin-top: 85px;
+    margin-left: 40px;
+    margin-right: 40px;
+    height: auto;
+}
+
+.appa {
+    font-size: 18pt;
+}
+
+.pesquisar-tabela {
+    margin-top: -25px;
+    padding-left: 10px;
+    border-radius: 10px;
+    border-color: black;
+}
+
+#linha_horizontal {
+    margin-left: 80px;
+    margin-right: 80px;
+    max-width: 2000px;
+    border: 1px solid #000;
+}
+
+.borda {
+    margin-left: 0px;
+    margin-top: -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.center {
+    margin-top: 5px;
+    justify-content: center;
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+table.table tr {
+    cursor: pointer;
+}
+
+.tabela {
+    width: 200px;
+    height: 50px;
+    font-size: 10pt;
+    margin-left: -20px;
+    margin-top: 60px;
+}
+.tabela2 {
+    width: 200px;
+    height: 50px;
+    font-size: 10pt;
+    margin-left: -20px;
+    margin-top: 110px;
+}
+.tabelaDisper {
+    width: 200px;
+    height: 50px;
+    font-size: 10pt;
+    margin-left: -20px;
+    margin-top: 100px;
+
+}
+
+.flex-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.content {
+    display: none;
+}
+
+.preload {
+    width: 200px;
+    height: 100px;
+    position: fixed;
+    top: 30%;
+    left: 45%;
+}
+
+.imagemIcon {
+    width: 40px;
+    height: 40px;
+}
+.imagemIconPdf {
+    width: 35px;
+    height: 40px;
+}   
+.tabelaExpor{ 
+    width: 500px;
+    
+}
