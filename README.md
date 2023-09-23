@@ -35,11 +35,3 @@ Table of conducted sessions for different patients, with the ability to export s
 ![VisualizationExport](./other/Imagem5.png)
 
 
-
-cd Controlo-Monitorizacao-Postural
-
-npm install         (install libraries)
-
-npm start           (in cmd) 
-
-npm run devicesimulator    (in new cmd, needs to both running at same time)
