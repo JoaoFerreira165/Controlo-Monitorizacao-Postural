@@ -1,5 +1,5 @@
 const instance = axios.create({
-    //baseURL: 'http://192.168.1.50:8000/',
+    // baseURL: 'http://192.168.1.101:8000/',
     baseURL: 'http://localhost:8000/',
 
 });
@@ -59,8 +59,7 @@ function getCsv() {
         IndexMCU: "IndexMCU",
         tempBNO55: "tempBNO55"
     };
-
-    var NomeFicheiro = 'dados_' + resSessionsData.data[0]._id; // or 'my-unique-title'
+    var NomeFicheiro = `dados_${resSessionsData.data[0].patient[0].name}_${resSessionsData.data[0].task.name} `;
     exportCSVFile(headers, InfoSessao, itemsFormatted, NomeFicheiro);
 }
 
@@ -156,21 +155,25 @@ function updateTable() {
       </tr>
       </thead>
 <tbody>`;
-    for (const item of pageData) {
-        var inicio = new Date(item.createdAt.substring(0, 19));
-        var fim = new Date(item.updatedAt.substring(0, 19));
-        var diferenca = new Date(fim - inicio);
-        var resultado = diferenca.getUTCMinutes() + "m ";
-        resultado += diferenca.getUTCSeconds() + "s ";
-        tableHTML += `<tr><td><input type="checkbox" name="${item.patient.name}" id="${i}" class="form-check-input marcar" value="${item._id}"></td>
-    <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${i++}</td>
-    <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.patient.name}</td>
-    <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.task.name}</td>
-    <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.device.description}</td>
-    <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.createdAt.substring(0, 10)}</td>
-    <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.createdAt.substring(11, 19)}</td>
-    <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.updatedAt.substring(11, 19)}</td>
-    <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${resultado}</td></tr>`;
+    if (pageData.length == 0) {
+        tableHTML += `<tr><td colspan="100%" class="text-danger">Sem dados</td></tr>`
+    } else {
+        for (const item of pageData) {
+            var inicio = new Date(item.createdAt.substring(0, 19));
+            var fim = new Date(item.updatedAt.substring(0, 19));
+            var diferenca = new Date(fim - inicio);
+            var resultado = diferenca.getUTCMinutes() + "m ";
+            resultado += diferenca.getUTCSeconds() + "s ";
+            tableHTML += `<tr><td><input type="checkbox" name="${item.patient.name}" id="${i}" class="form-check-input marcar" value="${item._id}"></td>
+                <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${i++}</td>
+                <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.patient.name}</td>
+                <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.task.name}</td>
+                <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.device.description}</td>
+                <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.createdAt.substring(0, 10)}</td>
+                <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.createdAt.substring(11, 19)}</td>
+                <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${item.updatedAt.substring(11, 19)}</td>
+                <td id="${item._id}" onclick="Mostrar_Infor(this.id)">${resultado}</td></tr>`;
+        }
     }
     i = 1;
     tableHTML += `</tbody>`;
@@ -178,7 +181,6 @@ function updateTable() {
 
     const pageCount = Math.ceil(resData.data.length / pageSize);
     document.querySelector("#numeracao").innerHTML = `Page ${currentPage + 1} of ${pageCount}`;
-
     const prevButton = document.querySelector("#anterior");
     const nextButton = document.querySelector("#proximo");
     prevButton.disabled = currentPage === 0;
@@ -209,14 +211,12 @@ function desmarcarCheckboxs() {
 $(document).ready(function () {
     $('.delete').on('click', function () {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-        console.log(checkboxes.length);
         if (checkboxes.length === 0) {
             $('#myModalElim').modal('show');
             $('.modal_body1').html('Selecione pelo menos uma Sessão para eliminar!');
         }
         else if (checkboxes.length === 1) {
             let str1 = "";
-            console.log(checkboxes[0].value);
             for (var i = 0; i < resData.data.length; i++) {
                 if (resData.data[i]._id === checkboxes[0].value) {
                     if (resData.data[i].patient.gender == "F") {
@@ -227,14 +227,14 @@ $(document).ready(function () {
                 }
             }
             $('#myModalElim').modal('show');
-            str1 += `${checkboxes[0].name} <br>`;
+            str1 += `${checkboxes[0].name}, Nº: ${checkboxes[0].id} <br>`;
             $('.modal_body1').html(str1);
         }
         else {
             let str1 = "Vai eliminar as Sessoes selecionadas dos Pacientes:  <br>";
             $('#myModalElim').modal('show');
             for (var i = 0; i < checkboxes.length; i++) {
-                str1 += `${checkboxes[i].name},  <br>`;
+                str1 += `${checkboxes[i].name}, Nº: ${checkboxes[i].id}  <br>`;
             }
             $('.modal_body1').html(str1);
         }

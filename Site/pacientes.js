@@ -1,5 +1,5 @@
 const instance = axios.create({
-    //baseURL: 'http://192.168.1.50:8000/',
+    // baseURL: 'http://192.168.1.101:8000/',
     baseURL: 'http://localhost:8000/',
 
 });
@@ -11,7 +11,7 @@ let resComplex;
 //função para mostrar dados dos pacientes na tabela, com a função show
 async function getData() {
     try {
-        resData = await axios.get('http://localhost:8000/patient/readall')
+        resData = await instance.get('patient/readall')
         show(resData.data.patients);
     }
     catch (error) {
@@ -26,23 +26,23 @@ function show(data) {
     }
     let tab =
         `<thead class="table-primary table-bordered border-secondary" >
-        <tr>
-            <th>#</th>
-            <th onclick="sortTable(1)">Nome <span style="float:right; margin-top:3px;"><iconify-icon icon="bi:arrow-down-circle-fill" rotate="180deg" flip="vertical"></iconify-icon></span></th>
-            <th>Género</th>
-            <th>Distrito</th>
-            <th>Complexo</th>
-        </tr>
-    </thead>
+            <tr>
+                <th>#</th>
+                <th onclick="sortTable(1)">Nome <span style="float:right; margin-top:3px;"><iconify-icon icon="bi:arrow-down-circle-fill" rotate="180deg" flip="vertical"></iconify-icon></span></th>
+                <th>Género</th>
+                <th>Distrito</th>
+                <th>Complexo</th>
+            </tr>
+        </thead>
     <tbody>`;
     for (let p of data) {
         tab +=
             `<tr> 
-        <td><input type="checkbox" name="${p.name}" genero="${p.gender}" id="checkbox" class="form-check-input marcar" value="${p._id}"></td>
-        <td id="${p._id}" onclick="Mostrar_Infor(this.id)">${p.name}</td>
-        <td id="${p._id}" onclick="Mostrar_Infor(this.id)">${p.gender}</td>
-        <td id="${p._id}" onclick="Mostrar_Infor(this.id)">${p.complex.district}</td> 
-        <td id="${p._id}" onclick="Mostrar_Infor(this.id)">${p.complex.name}</td>
+            <td><input type="checkbox" name="${p.name}" genero="${p.gender}" id="checkbox" class="form-check-input marcar" value="${p._id}"></td>
+            <td id="${p._id}" onclick="Mostrar_Infor(this.id)">${p.name}</td>
+            <td id="${p._id}" onclick="Mostrar_Infor(this.id)">${p.gender}</td>
+            <td id="${p._id}" onclick="Mostrar_Infor(this.id)">${p.complex.district}</td> 
+            <td id="${p._id}" onclick="Mostrar_Infor(this.id)">${p.complex.name}</td>
         </tr>`;
     }
     tab += `</tbody>`;
@@ -129,7 +129,6 @@ const postData = async (e) => {
         console.log(x)
         getData();
         $('#myModal').modal('hide');
-
     }
     catch (error) {
         console.log(error.response.data);
@@ -156,7 +155,6 @@ const Editpatient = async (e) => {
     for (var i = 0; i < checkboxes.length; i++) {
         var id = checkboxes[i].value;
     }
-
     const nome = document.getElementById("nome-edit").value;
     const genero = document.getElementById("genero-edit").value;
     const id_complexo = document.getElementById("complexo-edit").value;
@@ -225,9 +223,9 @@ $(document).ready(function () {
             console.log(resData.data.patients.length);
             for (var i = 0; i < resData.data.patients.length; i++) {
                 if (resData.data.patients[i].name === checkboxes[0].name) {
-                    if(resData.data.patients[i].gender == "F"){
+                    if (resData.data.patients[i].gender == "F") {
                         str1 += "Vai eliminar a paciente: ";
-                    }else{
+                    } else {
                         str1 += "Vai eliminar o paciente: ";
                     }
                 }

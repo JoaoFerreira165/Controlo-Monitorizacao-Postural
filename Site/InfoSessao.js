@@ -1,5 +1,5 @@
 const instance = axios.create({
-    //baseURL: 'http://192.168.1.50:8000/',
+    // baseURL: 'http://192.168.1.101:8000/',
     baseURL: 'http://localhost:8000/',
 
 });

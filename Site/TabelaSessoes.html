@@ -1,135 +1,147 @@
 <!DOCTYPE html>
 <html lang="pt">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tabela Sessões</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <link href="./bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/tabelaSessoes.css" rel="stylesheet">
-    <link href="./css/menu.css" rel="stylesheet">
+    <link href="./bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="./css/tabelaSessoes.css" rel="stylesheet" />
+    <link href="./css/menu.css" rel="stylesheet" />
     <script src="./bootstrap/bootstrap.bundle.min.js"></script>
     <script src="./TabelaSessoes.js" defer></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.0.0/papaparse.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand mx-auto mb-0 mt-0 appa" href="./Index.html">APPACDM</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse " id="navbarCollapse">
-                <ul class="navbar-nav mx-4 mb-0 mb-lg-0 mt-0">
-                    <li class="nav-item mx-2">
-                        <a class="nav-link mx-2" href="./Pacientes.html">Pacientes</a>
-                    </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link mx-2" href="./Sessions.html">Sessões</a>
-                    </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link mx-2 active" href="./TabelaSessoes.html">Tabela Sessões</a>
-                    </li>
-                    <li class="nav-item mx-2">
-                        <a class="nav-link mx-2" href="#">Jogo</a>
-                    </li>
-                </ul>
-            </div>
+      <div class="container-fluid">
+        <a class="navbar-brand mx-auto mb-0 mt-0 appa" href="./Index.html">APPACDM</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mx-4 mb-0 mb-lg-0 mt-0">
+            <li class="nav-item mx-2">
+              <a class="nav-link mx-2" href="./Pacientes.html">Pacientes</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link mx-2" href="./Sessions.html">Sessões</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link mx-2 active" href="./TabelaSessoes.html">Tabela Sessões</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link mx-2" href="#">Jogo</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
     <div class="Tabsessions">
-        <form>
-            <select name="" id="escolher-coluna">
-                <option value="" disabled selected>Escolha uma Coluna</option>
-                <option value="2">Pacientes</option>
-                <option value="3">Tarefas</option>
-            </select>
-            <input id="pesquisar-tabela" type="text" class="col-form-label mb-3 pesquisar-tabela"
-                placeholder="Pesquise na tabela...">
-        </form>
-        <div class="table-responsive">
-            <table id="Sessions"
-                class="table table-hover table-bordered border-secondary table-sm table-align-middle text-center">
-            </table>
+      <form>
+        <select name="" id="escolher-coluna">
+          <option value="" disabled selected>Escolha uma Coluna</option>
+          <option value="2">Pacientes</option>
+          <option value="3">Tarefas</option>
+        </select>
+        <input
+          id="pesquisar-tabela"
+          type="text"
+          class="col-form-label mb-3 pesquisar-tabela"
+          placeholder="Pesquise na tabela..."
+        />
+      </form>
+      <div class="table-responsive">
+        <table
+          id="Sessions"
+          class="table table-hover table-bordered border-secondary table-sm table-align-middle text-center"
+        ></table>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <button type="button" style="margin-top: -4px" class="btn btn-outline-primary delete">Apagar</button>
+          <button type="button" style="margin-top: -4px" class="btn btn-outline-primary exportDados">Exportar</button>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <button type="button" style="margin-top: -4px;" class="btn btn-outline-primary delete">Apagar</button>
-                <button type="button" style="margin-top: -4px;"
-                    class="btn btn-outline-primary exportDados">Exportar</button>
+        <div class="col-6" style="margin-top: -8px">
+          <div class="right">
+            <div>
+              <button class="btn btn-primary" id="anterior" disabled>&lsaquo; Anterior</button>
+              <span id="numeracao"></span>
+              <button class="btn btn-primary" id="proximo" disabled>Próximo &rsaquo;</button>
             </div>
-            <div class="col-6" style="margin-top: -8px;">
-                <div class="right">
-                    <div>
-                        <button class="btn btn-primary" id="anterior" disabled>&lsaquo; Anterior</button>
-                        <span id="numeracao"></span>
-                        <button class="btn btn-primary" id="proximo" disabled>Próximo &rsaquo;</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3">
-            </div>
-            <div class="col-6" id="div_tabExport" style="display: none;">
-                <h3 style="margin-left: 140px; margin-bottom: 10px; color: rgb(66, 66, 66);">Dados Exportados</h3>
-                <table id="TabExport"
-                    class="table table-hover table-bordered border-secondary table-sm table-align-middle text-center tabelaExpor">
-                    <thead class="table-primary table-bordered border-secondary">
-                        <tr>
-                            <th>#</th>
-                            <th>Paciente</th>
-                            <th>Tarefa</th>
-                            <th>Dados</th>
-                            <th>Relatório</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+          </div>
         </div>
+        <div class="col-3"></div>
+        <div class="col-6" id="div_tabExport" style="display: none">
+          <h3 style="margin-left: 140px; margin-bottom: 10px; color: rgb(66, 66, 66)">Dados Exportados</h3>
+          <table
+            id="TabExport"
+            class="table table-hover table-bordered border-secondary table-sm table-align-middle text-center tabelaExpor"
+          >
+            <thead class="table-primary table-bordered border-secondary">
+              <tr>
+                <th>#</th>
+                <th>Paciente</th>
+                <th>Tarefa</th>
+                <th>Dados</th>
+                <th>Relatório</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
     </div>
     <div class="modal" id="myModalElim">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100">Alerta!</h4>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body text-center bodyconteudo">
-                    <h6 class="modal_body1"></h6>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer text-center">
-                    <button type="button" class="btn btn-danger " data-bs-dismiss="modal"
-                        onclick="desmarcarCheckboxs()">Close</button>
-                    <a class="btn btn-danger btn-ok" onclick="deletePatient()" id="eliminar">Delete</a>
-                </div>
-            </div>
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100">Alerta!</h4>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body text-center bodyconteudo">
+            <h6 class="modal_body1"></h6>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer text-center">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="desmarcarCheckboxs()">
+              Close
+            </button>
+            <a class="btn btn-danger btn-ok" onclick="deletePatient()" id="eliminar">Delete</a>
+          </div>
         </div>
+      </div>
     </div>
     <div class="modal myModalInfoExpor" id="myModalInfoExpor">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100">Alerta!</h4>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body text-center bodyconteudo">
-                    <h6 class="modal_body1Export"></h6>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer ">
-                    <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
-                        onclick="desmarcarCheckboxs()">Close</button>
-                </div>
-            </div>
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100">Alerta!</h4>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body text-center bodyconteudo">
+            <h6 class="modal_body1Export"></h6>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal" onclick="desmarcarCheckboxs()">
+              Close
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>

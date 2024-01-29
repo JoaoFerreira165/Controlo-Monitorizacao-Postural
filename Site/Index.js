@@ -1,5 +1,5 @@
 const instance = axios.create({
-    //baseURL: 'http://192.168.1.50:8000/',
+    // baseURL: 'http://192.168.1.50:8000/',
     baseURL: 'http://localhost:8000/',
 
 });
@@ -202,7 +202,7 @@ function GraficoSessoes() {
 
             var chartColumnPac = new google.charts.Bar(document.getElementById('div_ColumnChartPacientes'));
             chartColumnPac.draw(dataColumnPacientes, google.charts.Bar.convertOptions(optionsColumnPac));
-            
+
             var chartPizzaTasks = new google.visualization.PieChart(document.getElementById('div_TasksChart'));
             chartPizzaTasks.draw(dataPizza, optionsPizzaTasks);
         }

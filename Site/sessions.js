@@ -1,5 +1,5 @@
 const instance = axios.create({
-    //baseURL: 'http://192.168.1.50:8000/',
+    // baseURL: 'http://192.168.1.101:8000/',
     baseURL: 'http://localhost:8000/',
 
 });
@@ -17,9 +17,6 @@ let mostrar = [];
 
 let count = 0;
 let intervalId;
-
-
-
 let valores = [];
 
 let chart;
@@ -40,6 +37,7 @@ let resDispositivo;
 async function getDispositivo() {
     try {
         resDispositivo = await instance.get('/device/readall');
+        console.log(resDispositivo)
         Idcomplexo = resDispositivo.data.devices[0].complex;
         Socket();
         const selectDispositivo = document.getElementById('mostrar-dispositivos')
@@ -162,11 +160,11 @@ var chartYawjs = new Chart(chartYaw, {
     }
 });
 function Socket() {
-    ioClient = io.connect("http://localhost:8000", { query: 'complex_id=' + Idcomplexo });
+    ioClient = io.connect("http://localhost:8000/", { query: 'complex_id=' + Idcomplexo });
     // Waiting response for connection
     ioClient.on("connection", (data, code) => {
         if (code == 200) {
-            //console.log("Cliente -> " + data);
+            console.log("Cliente -> " + data);
             // Create Session
             ioClient.on("start_session", (msg) => {
                 CriarSessao = JSON.parse(msg);
@@ -195,18 +193,18 @@ function Socket() {
 
                 const lastFive = dados.slice(-5);
                 ShowData(lastFive);
-                
+
                 var inicio = new Date(CriarSessao.createdAt);
                 var fim = new Date(dadosDisp.createdAt);
                 var diferenca = new Date(fim - inicio);
 
-                chartPitchjs.data.labels.push(diferenca.getMinutes() +":" + diferenca.getSeconds() + "s");
+                chartPitchjs.data.labels.push(diferenca.getMinutes() + ":" + diferenca.getSeconds() + "s");
                 chartPitchjs.data.datasets[0].data.push(dadosDisp.data.pitchRotation);
 
-                chartRolljs.data.labels.push(diferenca.getMinutes()+ ":" + diferenca.getSeconds()+"s" );
+                chartRolljs.data.labels.push(diferenca.getMinutes() + ":" + diferenca.getSeconds() + "s");
                 chartRolljs.data.datasets[0].data.push(dadosDisp.data.rollRotation);
 
-                chartYawjs.data.labels.push(diferenca.getMinutes()+":" + diferenca.getSeconds()+ "s");
+                chartYawjs.data.labels.push(diferenca.getMinutes() + ":" + diferenca.getSeconds() + "s");
                 chartYawjs.data.datasets[0].data.push(dadosDisp.data.yawRotation);
 
                 function resize() {
@@ -617,6 +615,7 @@ let nometarefa;
 let nomedispositivo;
 $(document).ready(function () {
     $('.enviar').on('click', async function () {
+        count = 0
         resData = await instance.get('patient/readAll');
         const nome = document.getElementById("nome-paciente").value;
         const tarefa = document.getElementById('mostrar-tarefas').value;
@@ -699,6 +698,7 @@ $(document).ready(function () {
                 }
                 if (CriarSessao.message === "Device is not found as observer") {
                     document.getElementById("informacoes").innerHTML = "Não se conseguiu conectar ao Dispositivo";
+                    count = 0;
                     return false;
                 }
                 if (CriarSessao.message === "Device complex or pacient complex does not match with declared complex in the request") {
