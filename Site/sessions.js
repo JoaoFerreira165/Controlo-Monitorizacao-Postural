@@ -159,6 +159,7 @@ var chartYawjs = new Chart(chartYaw, {
         }
     }
 });
+console.log("teste")
 function Socket() {
     ioClient = io.connect("http://localhost:8000/", { query: 'complex_id=' + Idcomplexo });
     // Waiting response for connection
